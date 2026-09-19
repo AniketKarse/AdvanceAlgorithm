@@ -1,0 +1,119 @@
+Algorithm: Kruskal_MST(G) //
+Input: A connected, undirected, weighted graph G = (V, E).
+Output: A set of edges A that forms a Minimum Spanning Tree (MST).
+
+1. Initialize an empty set A = ∅
+2. for each vertex v ∈ G.V do
+3.     Make_Set(v)  // Create a separate subset for every vertex
+4. end for
+5. 
+6. Sort all edges in G.E in non-decreasing order by their weight w.
+7. 
+8. for each edge (u, v) ∈ G.E taken in sorted order do
+9.     // If u and v belong to different sets, adding the edge won't form a cycle
+10.    if Find_Set(u) ≠ Find_Set(v) then
+11.        A = A ∪ {(u, v)}
+12.        Union(u, v)  // Merge the two subsets
+13.    end if
+14. end for
+15. 
+16. return A
+
+---------------------------------------------------------
+
+Algorithm: Prim_MST(G, w, r) //
+Input: Graph G = (V, E), weight function w, and a starting root vertex r.
+Output: An array parent representing the MST.
+
+1. for each vertex u ∈ G.V do
+2.     key[u] = ∞
+3.     parent[u] = NIL
+4. end for
+5. 
+6. key[r] = 0
+7. Initialize a Min-Priority Queue Q containing all vertices in G.V, keyed by their key values.
+8. 
+9. while Q is not empty do
+10.    u = Extract_Min(Q)  // Get the vertex with the smallest key
+11.    
+12.    for each neighbor v of u do
+13.        // If neighbor is in Q and the edge weight is less than its current key
+14.        if v ∈ Q and w(u, v) < key[v] then
+15.            parent[v] = u
+16.            key[v] = w(u, v)
+17.            Update_Key(Q, v, key[v]) // Re-heapify the priority queue
+18.        end if
+19.    end for
+20. end while
+
+---------------------------------------------------------
+
+Algorithm: Dijkstra_Shortest_Path(G, w, s) //
+Input: Graph G = (V, E), non-negative weights w, starting source vertex s.
+Output: Shortest distance from s to all other vertices.
+
+1. for each vertex v ∈ G.V do
+2.     dist[v] = ∞
+3.     parent[v] = NIL
+4. end for
+5. 
+6. dist[s] = 0
+7. Initialize a Min-Priority Queue Q containing all vertices in G.V, keyed by dist.
+8. 
+9. while Q is not empty do
+10.    u = Extract_Min(Q)
+11.    
+12.    for each neighbor v of u do
+13.        // Relaxation Step
+14.        if dist[v] > dist[u] + w(u, v) then
+15.            dist[v] = dist[u] + w(u, v)
+16.            parent[v] = u
+17.            Update_Key(Q, v, dist[v])
+18.        end if
+19.    end for
+20. end while
+
+---------------------------------------------------------
+
+Algorithm: Fractional_Knapsack(W, P, M, n) //
+Input: Arrays of weights W and profits P for n items, and maximum bag capacity M.
+Output: The maximum total profit achievable.
+
+1. Calculate the profit-to-weight ratio for each item: ratio[i] = P[i] / W[i].
+2. Sort the items in descending order based on their ratio.
+3. total_profit = 0
+4. current_weight = 0
+5. 
+6. for i = 1 to n do
+7.     if current_weight + W[i] ≤ M then
+8.         // Take the whole item
+9.         current_weight = current_weight + W[i]
+10.        total_profit = total_profit + P[i]
+11.    else
+12.        // Take a fraction of the remaining item to exactly fill the bag
+13.        remaining_capacity = M - current_weight
+14.        total_profit = total_profit + P[i] * (remaining_capacity / W[i])
+15.        break // Bag is full
+16.    end if
+17. end for
+18. 
+19. return total_profit
+
+---------------------------------------------------------
+
+Algorithm: Huffman_Coding(C) //
+Input: A set of n characters C, where each character c ∈ C has a frequency c.freq.
+Output: The root node of the constructed Huffman Tree.
+
+1. n = |C|
+2. Initialize a Min-Priority Queue Q containing all characters in C, keyed by their frequencies (freq).
+3. 
+4. for i = 1 to n - 1 do
+5.     Allocate a new internal tree node z
+6.     z.left = Extract_Min(Q)   // Get the two least frequent nodes
+7.     z.right = Extract_Min(Q)
+8.     z.freq = z.left.freq + z.right.freq // Combine their frequencies
+9.     Insert(Q, z)
+10. end for
+11. 
+12. return Extract_Min(Q) // The final remaining node is the root of the tree
