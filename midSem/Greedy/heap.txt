@@ -1,0 +1,92 @@
+Algorithm: Max_Heapify(A, i, N) 
+Input: An array A, an index i, and the total number of elements N. Assumes subtrees at 2i and 2i+1 are valid max-heaps.
+Output: Modifies A to ensure the subtree rooted at index i satisfies the max-heap property.
+
+1. left = 2 * i
+2. right = 2 * i + 1
+3. largest = i
+4. 
+5. // Check if left child exists and is greater than the root
+6. if left ≤ N and A[left] > A[largest] then
+7.     largest = left
+8. end if
+9. 
+10. // Check if right child exists and is greater than the current largest
+11. if right ≤ N and A[right] > A[largest] then
+12.     largest = right
+13. end if
+14. 
+15. // If the largest is not the root, swap and recurse down
+16. if largest ≠ i then
+17.     Swap(A[i], A[largest])
+18.     Max_Heapify(A, largest, N)
+19. end if
+
+---------------------------------------------------------
+
+Algorithm: Build_MaxHeap(A, N)
+Input: An unsorted array A of size N.
+Output: The array A rearranged into a valid max-heap.
+
+1. // Start from the last non-leaf node and move up to the root
+2. for i = ⌊N / 2⌋ down to 1 do
+3.     Max_Heapify(A, i, N)
+4. end for
+
+---------------------------------------------------------
+
+Algorithm: Min_Heapify(A, i, N) 
+Input: An array A, an index i, and the total number of elements N. Assumes subtrees at 2i and 2i+1 are valid min-heaps.
+Output: Modifies A to ensure the subtree rooted at index i satisfies the min-heap property.
+
+1. left = 2 * i
+2. right = 2 * i + 1
+3. smallest = i
+4. 
+5. // Check if left child exists and is smaller than the root
+6. if left ≤ N and A[left] < A[smallest] then
+7.     smallest = left
+8. end if
+9. 
+10. // Check if right child exists and is smaller than the current smallest
+11. if right ≤ N and A[right] < A[smallest] then
+12.     smallest = right
+13. end if
+14. 
+15. // If the smallest is not the root, swap and recurse down
+16. if smallest ≠ i then
+17.     Swap(A[i], A[smallest])
+18.     Min_Heapify(A, smallest, N)
+19. end if
+
+---------------------------------------------------------
+
+Algorithm: Build_MinHeap(A, N)
+Input: An unsorted array A of size N.
+Output: The array A rearranged into a valid min-heap.
+
+1. // Start from the last non-leaf node and move up to the root
+2. for i = ⌊N / 2⌋ down to 1 do
+3.     Min_Heapify(A, i, N)
+4. end for
+
+---------------------------------------------------------
+
+Algorithm: Heap_Sort(A, N)
+Input: An unsorted array A of size N.
+Output: The array A sorted in ascending order (using a Max-Heap).
+
+1. Build_MaxHeap(A, N)
+2. heap_size = N
+3. 
+4. // Extract maximum elements one by one from the heap
+5. for i = N down to 2 do
+6.     // Move current maximum (root) to the end of the array
+7.     Swap(A[1], A[i])
+8.     
+9.     // Reduce the considered heap size by 1
+10.    heap_size = heap_size - 1
+11.    
+12.    // Restore the max-heap property on the reduced heap
+13.    Max_Heapify(A, 1, heap_size)
+14. end for
